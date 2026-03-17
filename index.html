@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LIRA - Música Exclusiva</title>
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <style>
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background-color: #0a0a0a; 
+            color: #f5f5f5; 
+            padding: 20px; 
+            margin: 0;
+        }
+        .container { 
+            background: #141414; 
+            padding: 30px 20px; 
+            border-radius: 12px; 
+            max-width: 400px; 
+            margin: 0 auto; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(183, 28, 28, 0.1); 
+            overflow: hidden;
+        }
+        
+        .logo { font-size: 36px; font-weight: 300; letter-spacing: 8px; color: #d32f2f; margin-bottom: 5px; text-transform: uppercase; }
+        .sub-logo { font-size: 12px; color: #888; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+
+        .imagem-marca {
+            width: 80%; 
+            max-width: 200px; 
+            height: auto; 
+            margin: 10px auto 20px auto; 
+            display: block; 
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.4);
+        }
+
+        #telaCadastro {
+            background-image: 
+                radial-gradient(circle at center, rgba(211, 47, 47, 0.3) 0%, rgba(20, 20, 20, 1) 80%),
+                repeating-linear-gradient(45deg, rgba(255, 215, 0, 0.03) 0px, rgba(255, 215, 0, 0.03) 2px, transparent 2px, transparent 10px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #d32f2f;
+        }
+        #telaCadastro input[type="text"] {
+            background: rgba(34, 34, 34, 0.7);
+            border: 1px solid rgba(211, 47, 47, 0.5);
+            backdrop-filter: blur(5px);
+            color: white;
+        }
+
+        input[type="text"] { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #222; color: white; }
+        .radio-group { margin: 20px 0; text-align: left; padding-left: 10px; font-size: 14px; }
+        
+        button { background-color: #c62828; color: white; border: none; padding: 14px; border-radius: 30px; font-weight: bold; letter-spacing: 1px; width: 100%; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        button:hover { background-color: #b71c1c; }
+        button.secondary { background-color: transparent; border: 1px solid #555; color: #aaa; margin-top: 15px; font-size: 13px; padding: 12px; }
+        button.secondary:hover { background-color: #222; color: white; }
+        button.premium { background: linear-gradient(45deg, #d32f2f, #ff6659); margin-top: 20px; font-size: 16px; box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4); }
+        button.premium:hover { transform: scale(1.02); }
+
+        #telaApp, #telaAssinatura, #telaAnuncio { display: none; }
+        .painel { background: #1c1c1c; padding: 20px; border-radius: 8px; margin-top: 15px; text-align: left; border-left: 3px solid #c62828; }
+        
+        h3 { margin-top: 0; color: #fff; font-weight: 400; }
+        h4 { margin: 10px 0; font-weight: 300; }
+
+        ul { list-style: none; padding: 0; }
+        li { background: #222; margin: 8px 0; padding: 12px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 14px; transition: 0.2s; }
+        li:hover { background: #333; border-left: 2px solid #c62828; }
+        
+        audio { width: 100%; margin-top: 15px; outline: none; border-radius: 30px; }
+        .beneficios { text-align: left; margin: 20px 0; font-size: 14px; line-height: 1.8; color: #ccc; }
+        
+        .box-anuncio { background: #2a0808; border: 2px solid #d32f2f; padding: 25px 15px; border-radius: 12px; text-align: center; margin-top: 20px; }
+
+        .area-animacao { margin: 20px 0; text-align: center; height: 100px; }
+        #bonecoLira { font-size: 70px; display: inline-block; cursor: pointer; user-select: none; transition: 0.2s; }
+        
+        @keyframes dancar {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(-15deg) scale(1.1); }
+            50% { transform: translateY(0) rotate(0deg) scale(1); }
+            75% { transform: translateY(-15px) rotate(15deg) scale(1.1); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
+        }
+        .dancando { animation: dancar 0.6s infinite; filter: drop-shadow(0 0 15px #d32f2f); }
+
+        @keyframes tremer {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px) rotate(-5deg); }
+            50% { transform: translateX(8px) rotate(5deg); }
+            75% { transform: translateX(-8px) rotate(-5deg); }
+            100% { transform: translateX(0); }
+        }
+        .bravo { animation: tremer 0.15s infinite; filter: drop-shadow(0 0 20px red); }
+
+        .caixa-letra { display: none; background: #111; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-top: 15px; text-align: center; font-style: italic; color: #bbb; line-height: 1.6; font-size: 14px; white-space: pre-wrap; }
+        .btn-letra { background: transparent; border: 1px solid #d32f2f; color: #d32f2f; padding: 8px; border-radius: 20px; font-size: 12px; margin-top: 10px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-letra:hover { background: #d32f2f; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="telaCadastro">
+            <div class="logo">LIRA</div>
+            <div class="sub-logo">A sua música, a sua arte</div>
+            
+            <img src="https://placehold.co/400x400/111/d32f2f?text=FOTO+DA+LIRA" alt="Lira com Fones" class="imagem-marca">
+
+            <h2 style="font-weight: 300;">Criar Conta</h2>
+            <input type="text" id="nomeUsuario" placeholder="Qual é o seu nome?">
+            
+            <div class="radio-group">
+                <label><input type="radio" name="tipoConta" value="ouvinte" checked> Quero ouvir músicas</label><br><br>
+                <label><input type="radio" name="tipoConta" value="artista"> Sou Artista (Fazer Upload)</label>
+            </div>
+            
+            <button onclick="entrarNaPlataforma()">Entrar no LIRA</button>
+        </div>
+
+        <div id="telaAssinatura">
+            <div class="logo">LIRA</div>
+            <h2 style="font-weight: 300; color: #d32f2f;">LIRA Premium</h2>
+            <p>Música sem limites e sem anúncios.</p>
+            <div class="beneficios">
+                ✔️ Ouça sem interrupções<br>
+                ✔️ Modo reprodução aleatória<br>
+                ✔️ Apoie artistas independentes<br>
+                ✔️ Acompanhe a letra da música
+            </div>
+            <h3 style="margin-top: 20px;">R$ 19,90 / mês</h3>
+            <button class="premium" onclick="assinarPremium(true)">Testar 7 Dias Grátis</button>
+            <button class="secondary" onclick="entrarGratis()">Continuar na versão Gratuita</button>
+        </div>
+
+        <div id="telaApp">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="mensagemBoasVindas" style="font-weight: 300; margin: 0;">Bem-vindo!</h2>
+                <button class="secondary" onclick="sair()" style="margin: 0; padding: 6px 12px; width: auto;">Sair</button>
+            </div>
+            <p id="statusConta" style="color: #d32f2f; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; text-align: left;"></p>
+
+            <div id="telaAnuncio" class="box-anuncio">
+                <h3 style="color: #ff6659;">Pausa para os Patrocinadores 🛑</h3>
+                <p style="font-size: 14px; color: #ddd;">Você já ouviu várias músicas incríveis hoje. Que tal remover as interrupções?</p>
+                <button class="premium" onclick="assinarPremium(false)">Assinar Premium Agora</button>
+                <button class="secondary" onclick="fecharAnuncio()">Fechar anúncio e continuar</button>
+            </div>
+
+            <div id="painelArtista" class="painel" style="display: none;">
+                <h3>🎙️ Estúdio LIRA</h3>
+                <p style="font-size: 13px; color: #aaa; margin-bottom: 5px;">Capa da Música (Foto da Galeria):</p>
+                <input type="file" id="fotoCapa" accept="image/*" style="margin-bottom: 10px; font-size: 12px; color: white;" onchange="mostrarPreviaCapa(event)">
+                
+                <div id="previaCapaContainer" style="display: none; text-align: center; margin-bottom: 15px;">
+                    <img id="previaCapa" src="" alt="Capa da Música" style="width: 150px; height: 150px; object-fit: cover; border-radius: 12px; border: 2px solid #d32f2f; box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);">
+                </div>
+
+                <p style="font-size: 13px; color: #aaa; margin-bottom: 5px;">Faixa de Áudio (MP3):</p>
+                <input type="file" id="arquivoAudio" accept="audio/*" style="margin-bottom: 15px; font-size: 12px; color: white;">
+                
+                <button onclick="alert('Pronto para publicar!')">Publicar Música</button>
+            </div>
+
+            <div id="painelOuvinte" class="painel" style="display: none;">
+                <h4 id="nomeMusicaAtual" style="color: #d32f2f; text-align: center; font-size: 20px;">Carregando...</h4>
+                
+                <div class="area-animacao">
+                    <div id="bonecoLira" onclick="irritarBoneco()">🧑‍🎤</div>
+                    <p style="font-size: 10px; color: #555; margin: 0;">(Toque nele se tiver coragem)</p>
+                </div>
+
+                <audio id="meuPlayer" controls></audio>
+                
+                <button class="btn-letra" id="btnLetra" onclick="toggleLetra()" style="display: none;">Mostrar Letra</button>
+                <div id="caixaLetra" class="caixa-letra">A letra aparecerá aqui...</div>
+
+                <button class="secondary" onclick="tocarAleatorio()" style="margin-top: 15px; width: 100%;">🔀 Tocar Modo Aleatório</button>
+
+                <h3 style="margin-top: 20px;">Lista de Reprodução</h3>
+                <ul id="listaMusicas"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Links de amostra atualizados para máxima compatibilidade
+        const playlist = [
+            { titulo: "Batida Eletrônica", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", letra: "A noite cai e o som relaxa...\nO ritmo flui como as águas...\n🎵 (Música Eletrônica Premium) 🎵" },
+            { titulo: "Ritmo Animado", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", letra: "Luzes da cidade brilhando no escuro...\nCaminhando sem destino, sentindo o futuro...\n🎵 (Batida Animada) 🎵" },
+            { titulo: "Vibe Relaxante", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", letra: "🎶 (Som instrumental elegante tocando) 🎶\nAproveite a harmonia." },
+            { titulo: "Sintetizador", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", letra: "Sons do futuro invadindo o espaço...\nO grave marca o nosso compasso...\n🎹 (Solo de Sintetizador) 🎹" },
+            { titulo: "Groove Urbano", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", letra: "Nas ruas da capital o grave bate forte...\nDe sul a norte, a música é nosso esporte...\n🎧 (Groove Urbano) 🎧" }
+        ];
+
+        let indiceAtual = 0;
+        let isPremium = false; 
+        let contadorMusicas = 0; 
+        let musicaPendente = -1; 
+
+        const player = document.getElementById("meuPlayer");
+        const tituloAtual = document.getElementById("nomeMusicaAtual");
+        const caixaLetra = document.getElementById("caixaLetra");
+        const btnLetra = document.getElementById("btnLetra");
+        const boneco = document.getElementById("bonecoLira");
+        
+        let nomeUsuarioAtual = "";
+        let tipoUsuarioAtual = "";
+        let bonecoBravo = false; 
+
+        function entrarNaPlataforma() {
+            nomeUsuarioAtual = document.getElementById("nomeUsuario").value;
+            tipoUsuarioAtual = document.querySelector('input[name="tipoConta"]:checked').value;
+
+            if (nomeUsuarioAtual.trim() === "") {
+                alert("Por favor, digite o seu nome!");
+                return;
+            }
+
+            document.getElementById("telaCadastro").style.display = "none";
+
+            if (tipoUsuarioAtual === "ouvinte") {
+                document.getElementById("telaAssinatura").style.display = "block";
+            } else {
+                isPremium = true; 
+                abrirAppPrincipal();
+            }
+        }
+
+        function entrarGratis() {
+            isPremium = false;
+            document.getElementById("telaAssinatura").style.display = "none";
+            abrirAppPrincipal();
+        }
+
+        function assinarPremium(isNovo) {
+            isPremium = true;
+            document.getElementById("telaAssinatura").style.display = "none";
+            document.getElementById("telaAnuncio").style.display = "none";
+            
+            if (isNovo) {
+                alert("Parabéns! Seus 7 dias grátis foram ativados.");
+            } else {
+                alert("Bem-vindo ao Premium! Anúncios removidos.");
+                document.getElementById("painelOuvinte").style.display = "block";
+                if (musicaPendente !== -1) executarMusica(musicaPendente);
+            }
+            
+            document.getElementById("statusConta").innerText = "Conta Premium";
+            if(document.getElementById("telaApp").style.display === "none") abrirAppPrincipal();
+        }
+
+        function abrirAppPrincipal() {
+            document.getElementById("telaApp").style.display = "block";
+            document.getElementById("mensagemBoasVindas").innerText = "Olá, " + nomeUsuarioAtual + ".";
+            
+            if (isPremium && tipoUsuarioAtual === "ouvinte") {
+                document.getElementById("statusConta").innerText = "Conta Premium (7 Dias Grátis)";
+            } else if (!isPremium) {
+                document.getElementById("statusConta").innerText = "Conta Gratuita";
+            } else {
+                document.getElementById("statusConta").innerText = "Conta Artista";
+            }
+
+            if (tipoUsuarioAtual === "artista") {
+                document.getElementById("painelArtista").style.display = "block";
+                document.getElementById("painelOuvinte").style.display = "block"; 
+            } else {
+                document.getElementById("painelArtista").style.display = "none";
+                document.getElementById("painelOuvinte").style.display = "block";
+            }
+            carregarPlaylist();
+        }
+
+        function sair() {
+            document.getElementById("telaApp").style.display = "none";
+            document.getElementById("telaCadastro").style.display = "block";
+            player.pause();
+            isPremium = false; 
+            contadorMusicas = 0;
+            caixaLetra.style.display = "none";
+            btnLetra.style.display = "none";
+            boneco.classList.remove("dancando");
+            document.getElementById('nomeUsuario').value = ""; 
+        }
+
+        function carregarPlaylist() {
+            const lista = document.getElementById("listaMusicas");
+            lista.innerHTML = ""; 
+
+            playlist.forEach((musica, index) => {
+                const item = document.createElement("li");
+                item.innerHTML = `<span>${musica.titulo}</span> <span>▶️</span>`;
+                item.onclick = function() { tocarMusica(index); };
+                lista.appendChild(item);
+            });
+
+            // CARREGA A PRIMEIRA MÚSICA AUTOMATICAMENTE PARA TESTE
+            indiceAtual = 0;
+            player.src = playlist[0].url;
+            tituloAtual.innerText = playlist[0].titulo;
+            caixaLetra.innerText = playlist[0].letra;
+            btnLetra.style.display = "block";
+        }
+
+        function tocarMusica(index) {
+            if (!isPremium) {
+                contadorMusicas++;
+                if (contadorMusicas > 8) {
+                    player.pause();
+                    musicaPendente = index; 
+                    document.getElementById("painelOuvinte").style.display = "none"; 
+                    document.getElementById("telaAnuncio").style.display = "block"; 
+                    return; 
+                }
+            }
+            executarMusica(index);
+        }
+
+        function executarMusica(index) {
+            indiceAtual = index;
+            player.src = playlist[indiceAtual].url;
+            tituloAtual.innerText = playlist[indiceAtual].titulo;
+            caixaLetra.innerText = playlist[indiceAtual].letra;
+            btnLetra.style.display = "block"; 
+            player.play();
+        }
+
+        function fecharAnuncio() {
+            document.getElementById("telaAnuncio").style.display = "none";
+            document.getElementById("painelOuvinte").style.display = "block";
+            contadorMusicas = 1; 
+            executarMusica(musicaPendente);
+        }
+
+        function tocarAleatorio() {
+            let novoIndice = Math.floor(Math.random() * playlist.length);
+            while (novoIndice === indiceAtual && playlist.length > 1) {
+                novoIndice = Math.floor(Math.random() * playlist.length);
+            }
+            tocarMusica(novoIndice);
+        }
+
+        function toggleLetra() {
+            if (caixaLetra.style.display === "none" || caixaLetra.style.display === "") {
+                caixaLetra.style.display = "block";
+                btnLetra.innerText = "Ocultar Letra";
+            } else {
+                caixaLetra.style.display = "none";
+                btnLetra.innerText = "Mostrar Letra";
+            }
+        }
+        
+        player.addEventListener("play", () => {
+            if (!bonecoBravo) {
+                boneco.classList.add("dancando");
+                boneco.innerText = "🧑‍🎤"; 
+            }
+        });
+
+        player.addEventListener("pause", () => {
+            boneco.classList.remove("dancando");
+            if (!bonecoBravo) {
+                boneco.innerText = "🎧"; 
+            }
+        });
+
+        function irritarBoneco() {
+            if (bonecoBravo) return; 
+            
+            bonecoBravo = true;
+            boneco.classList.remove("dancando"); 
+            boneco.classList.add("bravo"); 
+            boneco.innerText = "😡🎧"; 
+
+            setTimeout(() => {
+                bonecoBravo = false;
+                boneco.classList.remove("bravo");
+                
+                if (!player.paused) {
+                    boneco.classList.add("dancando"); 
+                    boneco.innerText = "🧑‍🎤"; 
+                } else {
+                    boneco.innerText = "🎧"; 
+                }
+            }, 2000);
+        }
+
+        player.onended = function() {
+            indiceAtual++;
+            if (indiceAtual >= playlist.length) {
+                indiceAtual = 0; 
+            }
+            tocarMusica(indiceAtual); 
+        };
+
+        function mostrarPreviaCapa(event) {
+            const input = event.target;
+            const container = document.getElementById('previaCapaContainer');
+            const imagem = document.getElementById('previaCapa');
+
+            if (input.files && input.files[0]) {
+                const leitor = new FileReader(); 
+                
+                leitor.onload = function(e) {
+                    imagem.src = e.target.result; 
+                    container.style.display = 'block'; 
+                }
+                
+                leitor.readAsDataURL(input.files[0]); 
+            }
+        }
+    </script>
+</body>
+</html>
